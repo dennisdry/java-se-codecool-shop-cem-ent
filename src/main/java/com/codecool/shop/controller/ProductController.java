@@ -22,11 +22,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ProductController class rendering the index page and showing all the
+ * products stored.
+ */
 public class ProductController {
 
     private static ProductController instance = null;
     private ProductController() {}
 
+    /**
+     * Guarantees to be a singleton, it does not let to be instanciated.
+     * @return ProductCategoryDaoJdbc
+     */
     public static ProductController getInstance() {
         if (instance == null) {
             instance = new ProductController();
@@ -34,6 +42,12 @@ public class ProductController {
         return instance;
     }
 
+    /**
+     * This method renders the index page with all products details.
+     * @param req Request object for the session.
+     * @param res Response object for Spark.
+     * @return Spark ModelAndView
+     */
     public ModelAndView renderProducts(Request req, Response res) {
         ProductDao productDataStore = new ProductDaoJdbc();
 
@@ -42,6 +56,13 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
+    /**
+     * This method renders the index page with all information about products filtered by
+     * ProductCategory.
+     * @param req Request object for paramFiller method.
+     * @param res Response object for Spark.
+     * @return Spark ModelAndView
+     */
     public ModelAndView renderProductsbyCategory(Request req, Response res) {
         int categoryID = Integer.parseInt(req.params(":id"));
         ProductDao productDataStore = new ProductDaoJdbc();
@@ -52,6 +73,14 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
+    /**
+     /**
+     * This method renders the index page with all information about products filtered by
+     * Supplier.
+     * @param req Request object for paramFiller method.
+     * @param res Response object for Spark.
+     * @return Spark ModelAndView
+     */
     public ModelAndView renderProductsbySupplier(Request req, Response res) {
         int supplierID = Integer.parseInt(req.params(":id"));
         ProductDao productDataStore = new ProductDaoJdbc();
@@ -62,6 +91,11 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
+    /**
+     * This method is responsible for filling "params" HashMap with necesarry datas for rendering.
+     * @param req Request object for session.
+     * @return a HashMap filled with parameters for the rendering methods.
+     */
     private Map<String, Object> getCommonParams(Request req) {
         CartController cartController = CartController.getInstance();
         SupplierDao productSupplierDataStore = SupplierDaoJdbc.getInstance();
