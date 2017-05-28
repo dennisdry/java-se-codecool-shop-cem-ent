@@ -3,6 +3,8 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 //import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
@@ -27,6 +29,8 @@ import java.util.Map;
  * products stored.
  */
 public class ProductController {
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+
 
     private static ProductController instance = null;
     private ProductController() {}
@@ -49,6 +53,8 @@ public class ProductController {
      * @return Spark ModelAndView
      */
     public ModelAndView renderProducts(Request req, Response res) {
+        logger.info("GET request - URL: '/' or '/index'");
+        req.session(true);
         ProductDao productDataStore = new ProductDaoJdbc();
 
         Map<String, Object> params = getCommonParams(req);

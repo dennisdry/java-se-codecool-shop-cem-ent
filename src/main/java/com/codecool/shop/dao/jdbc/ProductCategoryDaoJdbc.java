@@ -4,6 +4,8 @@ import com.codecool.shop.DbConnection;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.*;
@@ -12,6 +14,7 @@ import java.util.List;
 
 
 public class ProductCategoryDaoJdbc implements ProductCategoryDao {
+    private static final Logger logger = LoggerFactory.getLogger(ProductDaoJdbc.class);
 
     DbConnection dbConnection = new DbConnection();
     private static ProductCategoryDaoJdbc instance = null;
@@ -52,6 +55,7 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         catch (IOException | SQLException ex) {
             ex.printStackTrace();
         }
+        logger.info("{} product added to db", category.getName());
     }
 
 
@@ -68,6 +72,7 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
+        logger.info("Category found");
         return null;
     }
 
@@ -81,6 +86,7 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
+        logger.info("Category removed from db");
     }
 
     @Override

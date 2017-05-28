@@ -5,7 +5,8 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.*;
 import java.util.LinkedList;
@@ -13,6 +14,7 @@ import java.util.List;
 
 
 public class ProductDaoJdbc implements ProductDao {
+    private static final Logger logger = LoggerFactory.getLogger(ProductDaoJdbc.class);
 
     private DbConnection dbConnection = new DbConnection();
     private SupplierDaoJdbc supplier = SupplierDaoJdbc.getInstance();
@@ -43,6 +45,7 @@ public class ProductDaoJdbc implements ProductDao {
         catch (IOException|SQLException ex) {
             ex.printStackTrace();
         }
+        logger.info("{} product added to db", product.getName());
     }
 
     @Override
@@ -71,6 +74,8 @@ public class ProductDaoJdbc implements ProductDao {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
+        logger.info("Product removed from db");
+
     }
 
 
@@ -136,5 +141,4 @@ public class ProductDaoJdbc implements ProductDao {
                     productCategory.find(resultSet.getInt("productcategory")),
                     supplier.find(resultSet.getInt("supplier")));
         }
-
-    }
+}
